@@ -197,7 +197,7 @@
             margin: 0;
         }
 
-        .next-btn, .start-btn {
+        .next-btn, .start-btn, #restart-quiz-in-progress-btn {
             background-color: var(--secondary-color);
             color: white;
             border: none;
@@ -210,8 +210,29 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        .next-btn:hover, .start-btn:hover {
+        .next-btn:hover, .start-btn:hover, #restart-quiz-in-progress-btn:hover {
             background-color: #e68a00;
+        }
+
+        #restart-quiz-in-progress-btn {
+            background-color: #444;
+            border: 2px solid #555;
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+        }
+
+        #restart-quiz-in-progress-btn:hover {
+            background-color: #555;
+            border-color: #666;
+        }
+
+        .quiz-buttons-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
         }
 
         #result-container h3, #result-container p {
@@ -326,7 +347,10 @@
                 <p id="feedback-text"></p>
                 <p id="rationale-text"></p>
             </div>
-            <button id="next-btn" class="next-btn hide">Next</button>
+            <div class="quiz-buttons-container">
+                <button id="restart-quiz-in-progress-btn" class="start-btn">Restart Quiz</button>
+                <button id="next-btn" class="next-btn hide">Next</button>
+            </div>
         </div>
         
         <div id="result-container" class="hide">
@@ -805,6 +829,7 @@
         const feedbackContainer = document.getElementById('feedback-container');
         const feedbackText = document.getElementById('feedback-text');
         const rationaleText = document.getElementById('rationale-text');
+        const restartQuizInProgressBtn = document.getElementById('restart-quiz-in-progress-btn');
         
         const finalScoreText = document.getElementById('final-score-text');
         const finalTimeText = document.getElementById('final-time-text');
@@ -998,7 +1023,7 @@
         function shareScore() {
             const scoreText = `I just took the CSS Help Desk Knowledge Quiz and scored ${correctCount} out of ${QUIZ_SIZE} in ${finalTimeText.innerText.replace('Total time: ', '')}!`;
             navigator.clipboard.writeText(scoreText).then(() => {
-                alert('Score copied to clipboard! You can now paste it into Microsoft Teams.');
+                alert('Score copied to clipboard! You can now paste it into Microsoft Teams or Slack.');
             }).catch(err => {
                 console.error('Could not copy text: ', err);
                 alert('Failed to copy score. Please try again.');
@@ -1010,11 +1035,18 @@
         startComboBtn.addEventListener('click', () => initializeQuiz('combo'));
 
         nextButton.addEventListener('click', handleNextButton);
-        
+
         restartButton.addEventListener('click', () => {
             startScreen.classList.remove('hide');
             resultContainer.classList.add('hide');
         });
+        
+        restartQuizInProgressBtn.addEventListener('click', () => {
+            stopTimer();
+            startScreen.classList.remove('hide');
+            quizContainer.classList.add('hide');
+        });
+
         reviewQuestionsButton.addEventListener('click', toggleReview);
         shareButton.addEventListener('click', shareScore);
 
