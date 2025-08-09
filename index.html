@@ -37,6 +37,7 @@
             max-width: 600px;
             width: 100%;
             text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
         }
         
         @media (max-width: 650px) {
@@ -51,8 +52,21 @@
             font-size: 2.5rem;
         }
 
-        #quiz-container, #result-container {
+        #start-screen, #quiz-container, #flashcard-container, #result-container {
             transition: all 0.5s ease-in-out;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        #start-screen h2 {
+            margin-top: 0;
+            color: var(--secondary-color);
+        }
+
+        .start-btn-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
         }
         
         .tracker {
@@ -80,6 +94,10 @@
 
         #incorrect-count {
             color: var(--incorrect-color);
+        }
+        
+        #timer {
+            color: var(--secondary-color);
         }
 
         #question {
@@ -139,6 +157,7 @@
             padding: 1rem;
             border-radius: 8px;
             background-color: #383838;
+            animation: slideIn 0.3s ease-out;
         }
 
         #feedback-text {
@@ -153,7 +172,7 @@
             margin: 0;
         }
 
-        .next-btn, .start-btn {
+        .next-btn, .start-btn, #reveal-btn, #next-card-btn {
             background-color: var(--secondary-color);
             color: white;
             border: none;
@@ -166,12 +185,86 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        .next-btn:hover, .start-btn:hover {
+        .next-btn:hover, .start-btn:hover, #reveal-btn:hover, #next-card-btn:hover {
             background-color: #e68a00;
         }
 
+        #result-container h3, #result-container p {
+            color: var(--text-color);
+        }
+
+        #review-questions-btn, #share-btn {
+            background-color: #444;
+            color: white;
+            border: 2px solid #555;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        #review-questions-btn:hover, #share-btn:hover {
+            background-color: #555;
+            border-color: #666;
+        }
+
+        .review-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 2rem;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .review-item {
+            background-color: #383838;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .review-item:hover {
+            background-color: #444;
+        }
+
+        .review-item p {
+            margin: 0.5rem 0;
+        }
+
+        .review-item .question-text {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        .review-item .your-answer, .review-item .correct-answer {
+            font-size: 0.9rem;
+        }
+        
+        .review-item .your-answer.correct-answer {
+            color: var(--correct-color);
+        }
+        
+        .review-item .your-answer.incorrect-answer {
+            color: var(--incorrect-color);
+        }
+        
         .hide {
             display: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -181,7 +274,10 @@
 
         <div id="start-screen">
             <p>Welcome to the CSS Help Desk Knowledge Quiz! This quiz will test your knowledge of various CSS-related systems and issues, including team responsibilities, troubleshooting, and specific processes. You'll be presented with 20 random questions from a larger pool. Good luck!</p>
-            <button id="start-btn" class="start-btn">Start Quiz</button>
+            <div class="start-btn-grid">
+                <button id="start-quiz-btn" class="start-btn">Start Quiz Mode</button>
+                <button id="start-flashcard-btn" class="start-btn">Start Flashcard Mode</button>
+            </div>
         </div>
 
         <div id="quiz-container" class="hide">
@@ -191,6 +287,7 @@
                     Correct: <span id="correct-count">0</span> |
                     Incorrect: <span id="incorrect-count">0</span>
                 </span>
+                <span id="timer">00:00</span>
             </div>
             <h2 id="question">Question Text</h2>
             <div id="answer-buttons" class="btn-grid">
@@ -205,11 +302,30 @@
             </div>
             <button id="next-btn" class="next-btn hide">Next</button>
         </div>
+        
+        <div id="flashcard-container" class="hide">
+            <div class="tracker">
+                <span id="flashcard-counter"></span>
+                <span id="timer-flashcard">00:00</span>
+            </div>
+            <h2 id="flashcard-question">Flashcard Question</h2>
+            <div id="flashcard-feedback" class="hide">
+                <p id="flashcard-rationale-text"></p>
+            </div>
+            <button id="reveal-btn" class="start-btn">Reveal Answer</button>
+            <button id="next-card-btn" class="next-btn hide">Next Card</button>
+        </div>
 
         <div id="result-container" class="hide">
             <h2>Quiz Complete!</h2>
-            <p id="score-text"></p>
+            <p id="final-score-text"></p>
+            <p id="final-time-text"></p>
+            <button id="review-questions-btn">Review Questions</button>
+            <button id="share-btn">Copy Score</button>
             <button id="restart-btn" class="next-btn">Restart Quiz</button>
+            <div id="review-list-container" class="hide">
+                <ul id="review-list" class="review-list"></ul>
+            </div>
         </div>
     </div>
     <script>
@@ -672,26 +788,47 @@
         const QUIZ_SIZE = 20;
 
         let selectedQuestions = [];
+        let userAnswers = []; // To store answers for review
         let currentQuestionIndex = 0;
         let correctCount = 0;
         let incorrectCount = 0;
-
+        let quizStartTime;
+        let quizTimeInterval;
+        let isFlashcardMode = false;
+        
         const startScreen = document.getElementById('start-screen');
         const quizContainer = document.getElementById('quiz-container');
+        const flashcardContainer = document.getElementById('flashcard-container');
         const resultContainer = document.getElementById('result-container');
         
         const questionCounterElement = document.getElementById('question-counter');
         const correctCountElement = document.getElementById('correct-count');
         const incorrectCountElement = document.getElementById('incorrect-count');
-
+        const timerElement = document.getElementById('timer');
+        const timerFlashcardElement = document.getElementById('timer-flashcard');
+        
         const questionElement = document.getElementById('question');
         const answerButtonsElement = document.getElementById('answer-buttons');
         const nextButton = document.getElementById('next-btn');
         const feedbackContainer = document.getElementById('feedback-container');
         const feedbackText = document.getElementById('feedback-text');
         const rationaleText = document.getElementById('rationale-text');
-        const scoreText = document.getElementById('score-text');
-        const startButton = document.getElementById('start-btn');
+        
+        const flashcardQuestionElement = document.getElementById('flashcard-question');
+        const flashcardFeedbackElement = document.getElementById('flashcard-feedback');
+        const flashcardRationaleText = document.getElementById('flashcard-rationale-text');
+        const revealButton = document.getElementById('reveal-btn');
+        const nextCardButton = document.getElementById('next-card-btn');
+        
+        const finalScoreText = document.getElementById('final-score-text');
+        const finalTimeText = document.getElementById('final-time-text');
+        const reviewQuestionsButton = document.getElementById('review-questions-btn');
+        const reviewListContainer = document.getElementById('review-list-container');
+        const reviewList = document.getElementById('review-list');
+        const shareButton = document.getElementById('share-btn');
+        
+        const startQuizButton = document.getElementById('start-quiz-btn');
+        const startFlashcardButton = document.getElementById('start-flashcard-btn');
         const restartButton = document.getElementById('restart-btn');
 
         function shuffleArray(array) {
@@ -700,22 +837,65 @@
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
+        
+        function startTimer() {
+            quizStartTime = Date.now();
+            quizTimeInterval = setInterval(() => {
+                const elapsedTime = Date.now() - quizStartTime;
+                const minutes = Math.floor(elapsedTime / (1000 * 60));
+                const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+                const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                if (!isFlashcardMode) {
+                    timerElement.innerText = formattedTime;
+                } else {
+                    timerFlashcardElement.innerText = formattedTime;
+                }
+            }, 1000);
+        }
 
+        function stopTimer() {
+            clearInterval(quizTimeInterval);
+            const elapsedTime = Date.now() - quizStartTime;
+            const minutes = Math.floor(elapsedTime / (1000 * 60));
+            const seconds = Math.floor((elapsedTime % (1000 * 60)) / 1000);
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
         function startQuiz() {
             shuffleArray(allQuestions);
             selectedQuestions = allQuestions.slice(0, QUIZ_SIZE);
+            userAnswers = [];
             currentQuestionIndex = 0;
             correctCount = 0;
             incorrectCount = 0;
+            isFlashcardMode = false;
             
             startScreen.classList.add('hide');
             resultContainer.classList.add('hide');
             quizContainer.classList.remove('hide');
+            flashcardContainer.classList.add('hide');
             nextButton.classList.add('hide');
             feedbackContainer.classList.add('hide');
 
             updateTracker();
+            startTimer();
             showQuestion();
+        }
+        
+        function startFlashcard() {
+            shuffleArray(allQuestions);
+            selectedQuestions = allQuestions.slice(0, QUIZ_SIZE);
+            currentQuestionIndex = 0;
+            isFlashcardMode = true;
+            
+            startScreen.classList.add('hide');
+            resultContainer.classList.add('hide');
+            quizContainer.classList.add('hide');
+            flashcardContainer.classList.remove('hide');
+
+            updateFlashcardTracker();
+            startTimer();
+            showFlashcard();
         }
 
         function showQuestion() {
@@ -737,6 +917,12 @@
                 answerButtonsElement.appendChild(button);
             });
         }
+        
+        function showFlashcard() {
+            resetFlashcardState();
+            let currentQuestion = selectedQuestions[currentQuestionIndex];
+            flashcardQuestionElement.innerText = currentQuestion.question;
+        }
 
         function resetState() {
             nextButton.classList.add('hide');
@@ -745,10 +931,28 @@
                 answerButtonsElement.removeChild(answerButtonsElement.firstChild);
             }
         }
+        
+        function resetFlashcardState() {
+            revealButton.classList.remove('hide');
+            nextCardButton.classList.add('hide');
+            flashcardFeedback.classList.add('hide');
+        }
 
         function selectAnswer(e) {
             const selectedButton = e.target;
             const isCorrect = selectedButton.dataset.isCorrect === 'true';
+
+            // Store user's answer
+            const userAnswerText = selectedButton.innerText;
+            const correctAnswerText = selectedQuestions[currentQuestionIndex].answerOptions.find(ans => ans.isCorrect).text;
+            const rationale = selectedQuestions[currentQuestionIndex].answerOptions.find(ans => ans.text === selectedButton.innerText).rationale;
+            userAnswers.push({
+                question: selectedQuestions[currentQuestionIndex].question,
+                userAnswer: userAnswerText,
+                correctAnswer: correctAnswerText,
+                isCorrect: isCorrect,
+                rationale: rationale
+            });
 
             // Disable all buttons and show colors
             Array.from(answerButtonsElement.children).forEach(button => {
@@ -770,23 +974,42 @@
             }
             updateTracker();
 
-            const rationale = selectedQuestions[currentQuestionIndex].answerOptions.find(ans => ans.text === selectedButton.innerText).rationale;
             rationaleText.innerText = rationale;
             feedbackContainer.classList.remove('hide');
             nextButton.innerText = currentQuestionIndex === QUIZ_SIZE - 1 ? 'Show Results' : 'Next';
             nextButton.classList.remove('hide');
         }
         
+        function revealFlashcardAnswer() {
+            const currentQuestion = selectedQuestions[currentQuestionIndex];
+            const correctAnswer = currentQuestion.answerOptions.find(ans => ans.isCorrect);
+            flashcardRationaleText.innerText = correctAnswer.rationale;
+            flashcardFeedbackElement.classList.remove('hide');
+            revealButton.classList.add('hide');
+            nextCardButton.classList.remove('hide');
+            nextCardButton.innerText = currentQuestionIndex === QUIZ_SIZE - 1 ? 'End Flashcards' : 'Next Card';
+        }
+
         function updateTracker() {
-            questionCounterElement.innerText = `Question ${currentQuestionIndex + 1} of ${QUIZ_SIZE}`;
-            correctCountElement.innerText = correctCount;
-            incorrectCountElement.innerText = incorrectCount;
+            if (!isFlashcardMode) {
+                questionCounterElement.innerText = `Question ${currentQuestionIndex + 1} of ${QUIZ_SIZE}`;
+                correctCountElement.innerText = correctCount;
+                incorrectCountElement.innerText = incorrectCount;
+            } else {
+                flashcardCounter.innerText = `Card ${currentQuestionIndex + 1} of ${QUIZ_SIZE}`;
+            }
         }
 
         function showScore() {
+            const finalTime = stopTimer();
             quizContainer.classList.add('hide');
+            flashcardContainer.classList.add('hide');
             resultContainer.classList.remove('hide');
-            scoreText.innerText = `You scored ${correctCount} out of ${QUIZ_SIZE}!`;
+            finalScoreText.innerText = `You scored ${correctCount} out of ${QUIZ_SIZE}!`;
+            finalTimeText.innerText = `Total time: ${finalTime}`;
+            reviewListContainer.classList.add('hide');
+            reviewQuestionsButton.innerText = "Review Questions";
+            reviewList.innerHTML = '';
         }
 
         function handleNextButton() {
@@ -798,10 +1021,64 @@
                 showScore();
             }
         }
+        
+        function handleNextCardButton() {
+             currentQuestionIndex++;
+            if (currentQuestionIndex < QUIZ_SIZE) {
+                updateFlashcardTracker();
+                showFlashcard();
+            } else {
+                showScore();
+            }
+        }
+        
+        function toggleReview() {
+            if (reviewListContainer.classList.contains('hide')) {
+                reviewList.innerHTML = '';
+                userAnswers.forEach((answer, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('review-item');
+                    
+                    const statusIcon = answer.isCorrect ? '✅' : '❌';
+                    const statusClass = answer.isCorrect ? 'correct-answer' : 'incorrect-answer';
+                    
+                    listItem.innerHTML = `
+                        <p class="question-text">${index + 1}. ${answer.question}</p>
+                        <p>Your Answer: <span class="your-answer ${statusClass}">${statusIcon} ${answer.userAnswer}</span></p>
+                        <p>Correct Answer: <span class="correct-answer">✅ ${answer.correctAnswer}</span></p>
+                        <p>Rationale: ${answer.rationale}</p>
+                    `;
+                    reviewList.appendChild(listItem);
+                });
+                reviewListContainer.classList.remove('hide');
+                reviewQuestionsButton.innerText = "Hide Review";
+            } else {
+                reviewListContainer.classList.add('hide');
+                reviewQuestionsButton.innerText = "Review Questions";
+            }
+        }
+        
+        function shareScore() {
+            const scoreText = `I just took the CSS Help Desk Knowledge Quiz and scored ${correctCount} out of ${QUIZ_SIZE} in ${finalTimeText.innerText.replace('Total time: ', '')}!`;
+            navigator.clipboard.writeText(scoreText).then(() => {
+                alert('Score copied to clipboard! You can now paste it into Microsoft Teams or Slack.');
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy score. Please try again.');
+            });
+        }
 
-        startButton.addEventListener('click', startQuiz);
+        startQuizButton.addEventListener('click', startQuiz);
+        startFlashcardButton.addEventListener('click', startFlashcard);
         nextButton.addEventListener('click', handleNextButton);
-        restartButton.addEventListener('click', startQuiz);
+        revealButton.addEventListener('click', revealFlashcardAnswer);
+        nextCardButton.addEventListener('click', handleNextCardButton);
+        restartButton.addEventListener('click', () => {
+            startScreen.classList.remove('hide');
+            resultContainer.classList.add('hide');
+        });
+        reviewQuestionsButton.addEventListener('click', toggleReview);
+        shareButton.addEventListener('click', shareScore);
 
     </script>
 </body>
