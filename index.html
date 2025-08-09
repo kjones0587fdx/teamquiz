@@ -893,7 +893,7 @@
             quizContainer.classList.add('hide');
             flashcardContainer.classList.remove('hide');
 
-            updateFlashcardTracker();
+            updateTracker();
             startTimer();
             showFlashcard();
         }
@@ -935,7 +935,7 @@
         function resetFlashcardState() {
             revealButton.classList.remove('hide');
             nextCardButton.classList.add('hide');
-            flashcardFeedback.classList.add('hide');
+            flashcardFeedbackElement.classList.add('hide');
         }
 
         function selectAnswer(e) {
@@ -999,6 +999,11 @@
                 flashcardCounter.innerText = `Card ${currentQuestionIndex + 1} of ${QUIZ_SIZE}`;
             }
         }
+        
+        function updateFlashcardTracker() {
+             flashcardCounter.innerText = `Card ${currentQuestionIndex + 1} of ${QUIZ_SIZE}`;
+        }
+
 
         function showScore() {
             const finalTime = stopTimer();
