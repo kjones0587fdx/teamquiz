@@ -397,10 +397,10 @@
             {
                 question: "Which of the following applications is managed by the Cross the Streams IT team?",
                 answerOptions: [
-                    { text: "VDS - Vision Data Store", rationale: "Active Package is managed by the '404: Address Not Found' team.", isCorrect: false },
+                    { text: "Active Package", rationale: "Cross the Streams is responsible for the Active Package application. 'Team 404' is responsible for 'VDS'.", isCorrect: true },
                     { text: "SCS", rationale: "SCS (Shipment Calendar Service) is a key application for the Cross the Streams team.", isCorrect: true },
                     { text: "EOFPL", rationale: "EOFPL is managed by the Edgelords team.", isCorrect: false },
-                    { text: "Active Package", rationale: "Active Package is managed by 'Team 404', which is a different team. Cross the Streams is known for different applications.", isCorrect: false }
+                    { text: "VDS - Vision Data Store", rationale: "VDS is managed by 'Team 404', which is a different team. Cross the Streams is known for different applications.", isCorrect: false }
                 ]
             },
             {
@@ -604,7 +604,7 @@
             {
                 question: "What IT team is responsible for the 'CDAS' application?",
                 answerOptions: [
-                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD' applications.", isCorrect: false },
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD'.", isCorrect: false },
                     { text: "Made to Code", rationale: "Made to Code handles 'SEFS 1.0', 'SAPI', and 'EONRO' applications.", isCorrect: false },
                     { text: "CDAS (via help tickets)", rationale: "Issues for the 'CDAS' application are handled through a help ticket system assigned to FXG_SPT_US_CDASIT.", isCorrect: true },
                     { text: "DnA", rationale: "DnA is responsible for 'EDD Calculation'.", isCorrect: false }
@@ -681,7 +681,10 @@
                     { text: "GSI System Team", rationale: "The 'GSI System Team' handles general GSI system support.", isCorrect: false },
                     { text: "APS Team", rationale: "The 'APS Team' handles 'APS' applications.", isCorrect: false }
                 ]
-            },
+            }
+        ];
+
+        const situationalQuestions = [
             {
                 question: "When attempting to assign a trailer in USSC, a user receives a 'Trailer Not Found' error. What is a possible reason for this?",
                 answerOptions: [
@@ -812,7 +815,6 @@
         let incorrectCount = 0;
         let quizStartTime;
         let quizTimeInterval;
-        let questionPool = [];
         
         const startScreen = document.getElementById('start-screen');
         const quizContainer = document.getElementById('quiz-container');
@@ -870,6 +872,7 @@
         }
         
         function initializeQuiz(quizType) {
+            let questionPool = [];
             if (quizType === 'teams') {
                 questionPool = teamAppQuestions;
             } else if (quizType === 'situational') {
