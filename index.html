@@ -54,6 +54,33 @@
         #quiz-container, #result-container {
             transition: all 0.5s ease-in-out;
         }
+        
+        .tracker {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        #question-counter {
+            font-weight: bold;
+        }
+
+        #score-tracker {
+            display: flex;
+            gap: 1rem;
+            font-weight: bold;
+        }
+
+        #correct-count {
+            color: var(--correct-color);
+        }
+
+        #incorrect-count {
+            color: var(--incorrect-color);
+        }
 
         #question {
             color: var(--text-color);
@@ -126,7 +153,7 @@
             margin: 0;
         }
 
-        .next-btn {
+        .next-btn, .start-btn {
             background-color: var(--secondary-color);
             color: white;
             border: none;
@@ -139,7 +166,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        .next-btn:hover {
+        .next-btn:hover, .start-btn:hover {
             background-color: #e68a00;
         }
 
@@ -151,7 +178,20 @@
 <body>
     <div class="container">
         <h1>IT Team Responsibilities Quiz</h1>
-        <div id="quiz-container">
+
+        <div id="start-screen">
+            <p>Welcome to the IT Team Responsibilities Quiz! This quiz will help you learn which teams are responsible for various applications and systems. You'll be presented with 20 random questions from a larger pool. Good luck!</p>
+            <button id="start-btn" class="start-btn">Start Quiz</button>
+        </div>
+
+        <div id="quiz-container" class="hide">
+            <div class="tracker">
+                <span id="question-counter"></span>
+                <span id="score-tracker">
+                    Correct: <span id="correct-count">0</span> |
+                    Incorrect: <span id="incorrect-count">0</span>
+                </span>
+            </div>
             <h2 id="question">Question Text</h2>
             <div id="answer-buttons" class="btn-grid">
                 <button class="btn">Answer 1</button>
@@ -165,6 +205,7 @@
             </div>
             <button id="next-btn" class="next-btn hide">Next</button>
         </div>
+
         <div id="result-container" class="hide">
             <h2>Quiz Complete!</h2>
             <p id="score-text"></p>
@@ -172,7 +213,7 @@
         </div>
     </div>
     <script>
-        const questions = [
+        const allQuestions = [
             {
                 question: "Which IT team is responsible for the 'SAD' and 'PSD' applications?",
                 answerOptions: [
@@ -370,11 +411,278 @@
                     { text: "APS Team", rationale: "The APS Team is responsible for the APS (Automated Pickup System) and related applications.", isCorrect: true },
                     { text: "Made to Code", rationale: "Made to Code is responsible for SEFS 1.0, SAPI, and EONRO.", isCorrect: false }
                 ]
+            },
+            {
+                question: "What team is responsible for the 'Vision Monitoring Application'?",
+                answerOptions: [
+                    { text: "Runnin' on Dunkin'", rationale: "Runnin' on Dunkin' is the team responsible for the 'Vision Monitoring Application'.", isCorrect: true },
+                    { text: "No Comment", rationale: "No Comment handles 'eYMS' applications.", isCorrect: false },
+                    { text: "Elite Squadron", rationale: "Elite Squadron handles 'DMT' applications.", isCorrect: false },
+                    { text: "Made to Code", rationale: "Made to Code handles 'SEFS 1.0', 'SAPI', and 'EONRO' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team handles issues related to 'eYMS' applications?",
+                answerOptions: [
+                    { text: "No Comment", rationale: "The 'No Comment' team is responsible for issues pertaining to 'eYMS' applications.", isCorrect: true },
+                    { text: "Shipyard", rationale: "Shipyard handles issues related to 'USSC' systems.", isCorrect: false },
+                    { text: "FORGE", rationale: "FORGE handles applications like 'Manifest Preview' and 'Telescope'.", isCorrect: false },
+                    { text: "Runnin' on Dunkin'", rationale: "Runnin' on Dunkin' handles the 'Vision Monitoring Application'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary application for the 'Elite Squadron' team?",
+                answerOptions: [
+                    { text: "DMT (Dock Maintenance Tool)", rationale: "Elite Squadron is responsible for the 'DMT' (Dock Maintenance Tool) application.", isCorrect: true },
+                    { text: "eYMS", rationale: "The 'No Comment' team handles 'eYMS' applications.", isCorrect: false },
+                    { text: "USSC", rationale: "The 'Shipyard' team handles 'USSC' systems.", isCorrect: false },
+                    { text: "FRO", rationale: "The 'RouteSmart' team handles 'FRO' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is responsible for the 'FLM Address' and 'Trip Adapter' applications?",
+                answerOptions: [
+                    { text: "A-Team", rationale: "A-Team handles 'SAD' and 'PSD' applications.", isCorrect: false },
+                    { text: "Mile Movers", rationale: "The 'Mile Movers' team is responsible for 'FLM Address' and 'Trip Adapter' applications.", isCorrect: true },
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD' applications.", isCorrect: false },
+                    { text: "Delivery Dragons", rationale: "Delivery Dragons handle 'WAMT' and 'DSW' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What team is responsible for the 'SAD' (Service Area Design) and 'PSD' (Planned Sort Date) applications?",
+                answerOptions: [
+                    { text: "A-Team", rationale: "The 'A-Team' is responsible for 'SAD' and 'PSD' applications.", isCorrect: true },
+                    { text: "Cargo Commandos", rationale: "Cargo Commandos handle the 'Recipient Portal' and 'RDB'.", isCorrect: false },
+                    { text: "Delivery Dragons", rationale: "Delivery Dragons handle 'WAMT' and 'DSW'.", isCorrect: false },
+                    { text: "Cross the Streams", rationale: "Cross the Streams handle 'DDS' and 'EDD'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is responsible for the 'Recipient Portal'?",
+                answerOptions: [
+                    { text: "Cargo Commandos", rationale: "The 'Cargo Commandos' team is responsible for the 'Recipient Portal'.", isCorrect: true },
+                    { text: "Edgelords", rationale: "Edgelords handle issues related to 'EOFPL'.", isCorrect: false },
+                    { text: "A-Team", rationale: "A-Team handles 'SAD' and 'PSD' applications.", isCorrect: false },
+                    { text: "Delivery Dragons", rationale: "Delivery Dragons handle 'WAMT' and 'DSW' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What IT team is responsible for the 'CDAS' application?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD' applications.", isCorrect: false },
+                    { text: "Made to Code", rationale: "Made to Code handles 'SEFS 1.0', 'SAPI', and 'EONRO' applications.", isCorrect: false },
+                    { text: "CDAS (via help tickets)", rationale: "Issues for the 'CDAS' application are handled through a help ticket system assigned to FXG_SPT_US_CDASIT.", isCorrect: true },
+                    { text: "DnA", rationale: "DnA is responsible for 'EDD Calculation'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is the first line of production support for the 'AEFS' application?",
+                answerOptions: [
+                    { text: "Rely EFS", rationale: "The 'Rely EFS' group is the first line of production support for 'AEFS' applications.", isCorrect: true },
+                    { text: "FORGE Vendors", rationale: "FORGE vendors handle scanner software and hardware.", isCorrect: false },
+                    { text: "DnA", rationale: "DnA is responsible for 'EDD Calculation'.", isCorrect: false },
+                    { text: "ITCC", rationale: "ITCC starts bridge calls and facilitates getting the right teams involved.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary role of the 'IT Command Center' (ITCC)?",
+                answerOptions: [
+                    { text: "To manage the 'eYMS' application.", rationale: "The 'No Comment' team manages the 'eYMS' application.", isCorrect: false },
+                    { text: "To initiate and facilitate bridge calls for urgent issues.", rationale: "The 'IT Command Center' (ITCC) can start bridge calls and facilitate getting the right teams involved.", isCorrect: true },
+                    { text: "To handle issues with 'FRO' plans not dropping to scanners.", rationale: "This is an urgent issue that involves multiple teams, but ITCC is not the primary handler.", isCorrect: false },
+                    { text: "To be the first line of support for 'AEFS' applications.", isCorrect: false, rationale: "The 'Rely EFS' group is the first line of production support for 'AEFS'."}
+                ]
+            },
+            {
+                question: "Which team is responsible for 'Manifest Preview' and 'Telescope'?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD'.", isCorrect: false },
+                    { text: "Made to Code", rationale: "Made to Code handles 'SEFS 1.0', 'SAPI', and 'EONRO'.", isCorrect: false },
+                    { text: "FORGE", rationale: "FORGE is responsible for 'Manifest Preview' and 'Telescope'.", isCorrect: true },
+                    { text: "Elite Squadron", rationale: "Elite Squadron handles 'DMT'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary application for the 'Runs with Scissors' team?",
+                answerOptions: [
+                    { text: "EOSR", rationale: "EOSR is handled by the 'Null Pointers' team.", isCorrect: false },
+                    { text: "TBT-SORT", rationale: "TBT-SORT is a primary application for the 'Runs with Scissors' team.", isCorrect: true },
+                    { text: "MIView", rationale: "MIView is handled by the 'EIT' team.", isCorrect: false },
+                    { text: "DDS", rationale: "DDS is handled by the 'Cross the Streams' team.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is responsible for 'FLM Manifest'?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "The 'Scrumbags' team is responsible for 'FLM Manifest'.", isCorrect: true },
+                    { text: "FORGE", rationale: "FORGE is responsible for applications like 'Manifest Preview' and 'Telescope'.", isCorrect: false },
+                    { text: "Mile Movers", rationale: "Mile Movers handle applications like 'Trip Adapter' and 'Execute Conveyance'.", isCorrect: false },
+                    { text: "A-Team", rationale: "A-Team handles 'SAD' and 'PSD'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary application for the 'The Commoners' team?",
+                answerOptions: [
+                    { text: "CLS", rationale: "The 'CLS' application is the responsibility of 'The Commoners'.", isCorrect: true },
+                    { text: "FLM Utilities", rationale: "FLM Utilities is handled by the 'Cargo Commandos' and 'Mile Movers' teams.", isCorrect: false },
+                    { text: "EOSR", rationale: "EOSR is handled by the 'Null Pointers' team.", isCorrect: false },
+                    { text: "SCS", rationale: "SCS is handled by the 'Cross the Streams' team.", isCorrect: false }
+                ]
+            },
+            {
+                question: "The 'Shrug' team is responsible for which applications?",
+                answerOptions: [
+                    { text: "FRANS", rationale: "FRANS is handled by the 'LowX' team.", isCorrect: false },
+                    { text: "EOSRO, SSCSO, WRR", rationale: "The 'Shrug' team is responsible for 'EOSRO', 'SSCSO', and 'WRR' applications.", isCorrect: true },
+                    { text: "TBT-SORT", rationale: "TBT-SORT is handled by the 'Runs with Scissors' team.", isCorrect: false },
+                    { text: "EONRO", rationale: "EONRO is handled by the 'Made to Code' team.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team handles the 'SEFS 1.0', 'SAPI', and 'EONRO' applications?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD'.", isCorrect: false },
+                    { text: "Made to Code", rationale: "The 'Made to Code' team is responsible for 'SEFS 1.0', 'SAPI', and 'EONRO' applications.", isCorrect: true },
+                    { text: "GSI System Team", rationale: "The 'GSI System Team' handles general GSI system support.", isCorrect: false },
+                    { text: "APS Team", rationale: "The 'APS Team' handles 'APS' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "When attempting to assign a trailer in USSC, a user receives a 'Trailer Not Found' error. What is a possible reason for this?",
+                answerOptions: [
+                    { text: "The trailer is already assigned at another door in USSC.", rationale: "This would result in a different error message, not 'Trailer Not Found'.", isCorrect: false },
+                    { text: "The trailer is not in the USSC database, or was created in TMS only a few hours ago.", rationale: "A 'Trailer Not Found' error is commonly caused by the trailer not existing in the USSC database or if it was created in another system (TMS) so recently that it hasn't synced yet.", isCorrect: true },
+                    { text: "The user is attempting to assign an Express shuttle to a Ground facility door, which is unsupported functionality.", rationale: "This would likely trigger an unsupported functionality error, not a 'Trailer Not Found' error.", isCorrect: false },
+                    { text: "The USSC system is experiencing an issue with local network or Wi-Fi connectivity.", rationale: "Network issues would present as a connectivity error or timeout, not a specific 'Trailer Not Found' error.", isCorrect: false }
+                ]
+            },
+            {
+                question: "A Service Provider reports that they are unable to access FedEx Route Optimization (FRO). What is the most common reason for this issue?",
+                answerOptions: [
+                    { text: "The Service Provider has an expired driver's license in CDAS.", rationale: "While a factor, an expired license is not the most common reason for this specific access issue.", isCorrect: false },
+                    { text: "Their local system's datetime is set incorrectly, causing a JWT error.", rationale: "This is a less common issue, though it can cause authentication problems.", isCorrect: false },
+                    { text: "There is a lack of a Business Contact (BC) designation for their CSA/station combo in CDAS.", rationale: "The most common reason for Service Providers being unable to access FRO is that they lack a Business Contact (BC) designation for their specific CSA and station combination in the CDAS system.", isCorrect: true },
+                    { text: "They are attempting to log in using a web browser other than Google Chrome or Microsoft Edge.", rationale: "While browser compatibility can be an issue, it's not the most common root cause for a denied access issue.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is an 'Uncovered ZIP' in Service Area Design (SAD), and what is its potential impact?",
+                answerOptions: [
+                    { text: "A ZIP code that has been intentionally excluded from service and will have no operational impact.", rationale: "An Uncovered ZIP is not an intentionally excluded ZIP.", isCorrect: false },
+                    { text: "A portion of a ZIP code not covered by a Contracted Service Area (CSA) layer, which can result in stops not receiving an assignment by Preload Assist.", rationale: "An 'Uncovered ZIP' is a portion of a ZIP code without a CSA layer, which prevents Preload Assist from properly assigning stops.", isCorrect: true },
+                    { text: "A ZIP code with too many Recipient Overrides, making the SAD map unresponsive.", rationale: "Too many overrides may impact performance, but this is not the definition of an Uncovered ZIP.", isCorrect: false },
+                    { text: "A ZIP code where all packages are assigned to a single, incorrect CSA due to a Postal Code Override.", rationale: "This is a result of an incorrect override, not the definition of an Uncovered ZIP.", isCorrect: false }
+                ]
+            },
+            {
+                question: "A dock supervisor attempts to assign a trailer to a door in Universal Sortation System Centralized (USSC) but receives an error message stating, 'Trailer (trailer number) is already assigned at (door number)'. The supervisor verifies that the trailer is not currently at their station's door. What is a common root cause for this error?",
+                answerOptions: [
+                    { text: "The trailer is too large for the designated door, triggering an automatic rejection.", rationale: "This would result in a different type of error.", isCorrect: false },
+                    { text: "The USSC system is experiencing a network connectivity issue, preventing real-time updates.", rationale: "A network issue would likely result in a timeout or connectivity error, not a specific assignment error.", isCorrect: false },
+                    { text: "The trailer is currently in loading status within USSC at another facility, or there's a stuck Redis cache for the trailer.", rationale: "This is the correct answer. The error indicates the system thinks the trailer is actively in use elsewhere, often due to a stuck status from another facility or a cached data issue.", isCorrect: true },
+                    { text: "The supervisor lacks the necessary security roles in USSC to assign trailers to doors.", rationale: "A permissions issue would result in an access or security error, not this specific message.", isCorrect: false }
+                ]
+            },
+            {
+                question: "A station employee uses Address Management System (AMS) to perform an Address Resolve for a street number error ('132 Main St' to '123 Main St'). Later, packages for a different '132 Main St' are also routed to '123 Main St'. What was the fundamental error in the employee's action?",
+                answerOptions: [
+                    { text: "The employee should have used a 'Manual Plot' instead of an 'Address Resolve'.", rationale: "A Manual Plot is for geocoding, not address correction.", isCorrect: false },
+                    { text: "An 'Address Resolve' is intended for minor formatting issues (e.g., typos, spacing), while a major change like a street number correction requires an 'Address Correction', which is package-specific and not permanent for future shipments.", rationale: "The fundamental error was using 'Address Resolve' for a major change like a street number. 'Address Resolve' is for minor issues and creates a permanent change, impacting future deliveries to other valid addresses. An 'Address Correction' should be used for major, package-specific changes.", isCorrect: true },
+                    { text: "The employee forgot to clear the Redis cache after performing the Address Resolve.", rationale: "This is a technical step that doesn't relate to the fundamental business logic error.", isCorrect: false },
+                    { text: "The correct action would have been to submit a 'Postal Code Override' in SAD.", rationale: "A 'Postal Code Override' in SAD is for routing, not for correcting a street address.", isCorrect: false }
+                ]
+            },
+            {
+                question: "A Hazmat package with a future Planned Sort Date (PSD) is scanned during a weekend sort when Hold at Destination (HAD) for Ground (GND) is ON. What will appear on the PLA label?",
+                answerOptions: [
+                    { text: "'HOLD-X' (X being days in future of PSD), because the HAD setting is active for GND packages.", rationale: "Incorrect, package exceptions take precedence over HAD.", isCorrect: false },
+                    { text: "'QA-HAZMAT', because package exception statuses take precedence over HAD status.", rationale: "Correct. The 'Hazmat' exception status takes precedence over the 'HOLD' status from HAD.", isCorrect: true },
+                    { text: "'999-0', because the package's PSD conflicts with the HAD settings, resulting in a generic assignment.", rationale: "Incorrect, a '999-0' is for a contingency assignment.", isCorrect: false },
+                    { text: "The package's regular Work Area (WA) and Section ID (SID), as HAD only applies to residential deliveries.", rationale: "Incorrect, HAD can apply to all GND packages.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is a key limitation or specific behavior regarding Delivery Time Windows (DTWs) in the Recipient Portal?",
+                answerOptions: [
+                    { text: "They can only be set for pickup stops.", rationale: "DTWs are for delivery stops, not pickup stops.", isCorrect: false },
+                    { text: "A COMBO split will not be achieved if the Delivery Time Window chosen overlaps the Pickup Window.", rationale: "A COMBO split will not be achieved if the DTW overlaps with the Pickup Window. The start/end times must be completely separate.", isCorrect: true },
+                    { text: "They automatically apply status codes for service exceptions.", rationale: "DTWs do not automatically apply status codes for service exceptions.", isCorrect: false },
+                    { text: "They automatically update the destination address in AMS.", rationale: "DTWs do not automatically update the address in AMS.", isCorrect: false }
+                ]
+            },
+            {
+                question: "A FORGE user encounters the error message: 'Your IT Administrator has restricted access to Maps'. What is the immediate resolution for this issue?",
+                answerOptions: [
+                    { text: "Escalate to the FASS Delivery team.", rationale: "This is not the immediate resolution.", isCorrect: false },
+                    { text: "Request an update to the map files from the FORGE team.", rationale: "This is not the immediate resolution, the issue is with settings.", isCorrect: false },
+                    { text: "Update the FORGE settings to use Omnitracs as the preferred navigation provider.", rationale: "The immediate solution is to change the navigation provider in the FORGE settings.", isCorrect: true },
+                    { text: "Reboot the device and try again after 15 minutes.", rationale: "A reboot may not resolve a settings-based issue.", isCorrect: false }
+                ]
+            },
+            {
+                question: "True/False: A station creates an Multiple Recipient Location (MRL) for an apartment building where all units are F-Type stops. This MRL is beneficial because it allows the station to split the address into multiple stops.",
+                answerOptions: [
+                    { text: "True", rationale: "This statement is false. If all units are F-Types, the system already recognizes them as separate stops, so an MRL is unnecessary and considered redundant.", isCorrect: false },
+                    { text: "False", rationale: "This statement is false. If all units are F-Types, the system already recognizes them as separate stops, so an MRL is unnecessary and considered redundant.", isCorrect: true }
+                ]
+            },
+            {
+                question: "True/False: An inaccurate 'FDX' geocode source in RUNE indicates a systematic 'bad cleanse' issue.",
+                answerOptions: [
+                    { text: "True", rationale: "The statement is false. An 'FDX' geocode source indicates a manual plot, not a bad cleanse. A bad cleanse is a systemic issue, while an inaccurate FDX plot is a user-created error.", isCorrect: false },
+                    { text: "False", rationale: "The statement is false. An 'FDX' geocode source indicates a manual plot, not a bad cleanse. A bad cleanse is a systemic issue, while an inaccurate FDX plot is a user-created error.", isCorrect: true }
+                ]
+            },
+            {
+                question: "True/False: To ensure direct injection shipper volume is planned in FRO, a station should primarily include the relevant trailer numbers in their PSD submission.",
+                answerOptions: [
+                    { text: "True", rationale: "The statement is false. Direct volume from a shipper cannot be planned by including the trailer number. It can only be planned by including both the Estimated Delivery Date (EDD) and the Shipper Number.", isCorrect: false },
+                    { text: "False", rationale: "The statement is false. Direct volume from a shipper cannot be planned by including the trailer number. It can only be planned by including both the Estimated Delivery Date (EDD) and the Shipper Number.", isCorrect: true }
+                ]
+            },
+            {
+                question: "True/False: Due to 'suppression logic', a second PSD submission made within 7 minutes of the first will not be accepted by the FRO system.",
+                answerOptions: [
+                    { text: "True", rationale: "This statement is true. The 'suppression logic' in the system requires a 7-minute waiting period between PSD submissions for changes to be accepted.", isCorrect: true },
+                    { text: "False", rationale: "This statement is true. The 'suppression logic' in the system requires a 7-minute waiting period between PSD submissions for changes to be accepted.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which of the following is an incorrect troubleshooting step for when Hold at Destination (HAD) is not turning off?",
+                answerOptions: [
+                    { text: "Verify the HAD dashboard reflects that holds are off.", isCorrect: false, rationale: "This is a correct and necessary troubleshooting step." },
+                    { text: "Attempt to toggle each network type (FXG, FHD, FXE) on and off within the HAD dashboard.", isCorrect: false, rationale: "This is a correct troubleshooting step used to reset the flag." },
+                    { text: "If the issue persists, direct the station to manually override the 'HOLD' assignment for affected packages by performing a Dock Flex or Assign WA on each package, as this will reset the system's HAD flag.", isCorrect: true, rationale: "This step is incorrect. While these actions can override a HOLD assignment for a specific package, they are temporary workarounds and do not resolve the root cause of the HAD system-wide flag being 'stuck' on." },
+                    { text: "If toggling doesn't resolve the issue, escalate to the PLA on-call, as the HAD flag might be 'stuck' in the backend and require manual update by PLA.", isCorrect: false, rationale: "This is the correct escalation step when the issue cannot be resolved by toggling." }
+                ]
+            },
+            {
+                question: "Which of the following statements about PLA label assignments and hierarchy is FALSE?",
+                answerOptions: [
+                    { text: "A PLA label will display 'HOLD-X' for packages with a PSD set for a future date.", isCorrect: false, rationale: "This statement is true; this is how HAD functions." },
+                    { text: "If a package is from an invalid shipper, the PLA label will print 'INVALID SHIPPER'.", isCorrect: false, rationale: "This statement is true; this is a known label assignment." },
+                    { text: "A '999-0' or 'Belt#-0' on a PLA label indicates contingency assignments with multiple possible Work Areas.", isCorrect: false, rationale: "This statement is true; these codes represent contingency assignments." },
+                    { text: "Package exception statuses such as 'Not on File' (NOF), 'Hazmat,' and 'Intercept' take precedence over a 'HOLD' status on a PLA label.", isCorrect: false, rationale: "This statement is true; exceptions have a higher priority than the HAD status." },
+                    { text: "If a package's ZIP code is serviced by the destination station but is not assigned to any CSA in SAD, it will receive a 'MISLOAD' response on the PLA label.", isCorrect: true, rationale: "This statement is false. The correct response would be 'UNASSIGNED ZIPCODE', not 'MISLOAD'. 'MISLOAD' is for packages in the wrong station." }
+                ]
             }
         ];
+        
+        // This is the number of questions to show per quiz session
+        const QUIZ_SIZE = 20;
 
+        let selectedQuestions = [];
         let currentQuestionIndex = 0;
-        let score = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+
+        const startScreen = document.getElementById('start-screen');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        
+        const questionCounterElement = document.getElementById('question-counter');
+        const correctCountElement = document.getElementById('correct-count');
+        const incorrectCountElement = document.getElementById('incorrect-count');
 
         const questionElement = document.getElementById('question');
         const answerButtonsElement = document.getElementById('answer-buttons');
@@ -382,25 +690,42 @@
         const feedbackContainer = document.getElementById('feedback-container');
         const feedbackText = document.getElementById('feedback-text');
         const rationaleText = document.getElementById('rationale-text');
-        const quizContainer = document.getElementById('quiz-container');
-        const resultContainer = document.getElementById('result-container');
         const scoreText = document.getElementById('score-text');
+        const startButton = document.getElementById('start-btn');
         const restartButton = document.getElementById('restart-btn');
 
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
         function startQuiz() {
+            shuffleArray(allQuestions);
+            selectedQuestions = allQuestions.slice(0, QUIZ_SIZE);
             currentQuestionIndex = 0;
-            score = 0;
-            quizContainer.classList.remove('hide');
+            correctCount = 0;
+            incorrectCount = 0;
+            
+            startScreen.classList.add('hide');
             resultContainer.classList.add('hide');
+            quizContainer.classList.remove('hide');
             nextButton.classList.add('hide');
             feedbackContainer.classList.add('hide');
+
+            updateTracker();
             showQuestion();
         }
 
         function showQuestion() {
             resetState();
-            let currentQuestion = questions[currentQuestionIndex];
-            questionElement.innerText = `${currentQuestionIndex + 1}. ${currentQuestion.question}`;
+            let currentQuestion = selectedQuestions[currentQuestionIndex];
+            questionElement.innerText = currentQuestion.question;
+
+            // Shuffle answer options for added variety
+            shuffleArray(currentQuestion.answerOptions);
+
             currentQuestion.answerOptions.forEach(answer => {
                 const button = document.createElement('button');
                 button.innerText = answer.text;
@@ -437,42 +762,46 @@
             });
 
             if (isCorrect) {
-                score++;
+                correctCount++;
                 feedbackText.innerText = 'Correct! ✅';
             } else {
+                incorrectCount++;
                 feedbackText.innerText = 'Incorrect! ❌';
             }
+            updateTracker();
 
-            const rationale = questions[currentQuestionIndex].answerOptions.find(ans => ans.text === selectedButton.innerText).rationale;
+            const rationale = selectedQuestions[currentQuestionIndex].answerOptions.find(ans => ans.text === selectedButton.innerText).rationale;
             rationaleText.innerText = rationale;
             feedbackContainer.classList.remove('hide');
+            nextButton.innerText = currentQuestionIndex === QUIZ_SIZE - 1 ? 'Show Results' : 'Next';
             nextButton.classList.remove('hide');
+        }
+        
+        function updateTracker() {
+            questionCounterElement.innerText = `Question ${currentQuestionIndex + 1} of ${QUIZ_SIZE}`;
+            correctCountElement.innerText = correctCount;
+            incorrectCountElement.innerText = incorrectCount;
         }
 
         function showScore() {
             quizContainer.classList.add('hide');
             resultContainer.classList.remove('hide');
-            scoreText.innerText = `You scored ${score} out of ${questions.length}!`;
+            scoreText.innerText = `You scored ${correctCount} out of ${QUIZ_SIZE}!`;
         }
 
         function handleNextButton() {
             currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
+            if (currentQuestionIndex < QUIZ_SIZE) {
                 showQuestion();
             } else {
                 showScore();
             }
         }
 
-        nextButton.addEventListener('click', () => {
-            handleNextButton();
-        });
+        startButton.addEventListener('click', startQuiz);
+        nextButton.addEventListener('click', handleNextButton);
+        restartButton.addEventListener('click', startQuiz);
 
-        restartButton.addEventListener('click', () => {
-            startQuiz();
-        });
-
-        startQuiz();
     </script>
 </body>
 </html>
