@@ -1026,7 +1026,7 @@
         function shareScore() {
             const scoreText = `I just took the CSS Help Desk Knowledge Quiz and scored ${correctCount} out of ${QUIZ_SIZE} in ${finalTimeText.innerText.replace('Total time: ', '')}!`;
             navigator.clipboard.writeText(scoreText).then(() => {
-                alert('Score copied to clipboard! You can now paste it into Microsoft Teams or Slack.');
+                alert('Score copied to clipboard! You can now paste it into Microsoft Teams.');
             }).catch(err => {
                 console.error('Could not copy text: ', err);
                 alert('Failed to copy score. Please try again.');
