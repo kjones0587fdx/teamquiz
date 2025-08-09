@@ -294,13 +294,19 @@
             const selectedButton = e.target;
             const isCorrect = selectedButton.dataset.isCorrect === 'true';
 
+            // Safely get the clicked answer object and its rationale
             const userAnswerText = selectedButton.innerText;
-            const correctAnswer = selectedQuestions[currentQuestionIndex].answerOptions.find(ans => ans.isCorrect);
-            const rationale = selectedQuestions[currentQuestionIndex].answerOptions.find(ans => ans.text === userAnswerText).rationale;
+            const clickedAnswerObject = selectedQuestions[currentQuestionIndex].answerOptions.find(ans => ans.text === userAnswerText);
+            const rationale = clickedAnswerObject ? clickedAnswerObject.rationale : "No rationale available.";
+
+            // Get all correct answers for the review
+            const allCorrectAnswers = selectedQuestions[currentQuestionIndex].answerOptions.filter(ans => ans.isCorrect);
+            const allCorrectAnswersText = allCorrectAnswers.map(ans => ans.text).join(' / ');
+
             userAnswers.push({
                 question: selectedQuestions[currentQuestionIndex].question,
                 userAnswer: userAnswerText,
-                correctAnswer: correctAnswer.text,
+                correctAnswer: allCorrectAnswersText, // Store all correct answers
                 isCorrect: isCorrect,
                 rationale: rationale
             });
@@ -371,7 +377,7 @@
                     listItem.innerHTML = `
                         <p class="font-bold text-slate-200">${index + 1}. ${answer.question}</p>
                         <p class="mt-2">Your Answer: <span class="font-semibold ${statusClass}">${statusIcon} ${answer.userAnswer}</span></p>
-                        ${!answer.isCorrect ? `<p>Correct Answer: <span class="font-semibold text-green-400">✅ ${answer.correctAnswer}</span></p>` : ''}
+                        ${!answer.isCorrect ? `<p>Correct Answer(s): <span class="font-semibold text-green-400">✅ ${answer.correctAnswer}</span></p>` : ''}
                         <p class="mt-2 text-slate-400 text-sm"><em>Rationale: ${answer.rationale}</em></p>
                     `;
                     reviewList.appendChild(listItem);
