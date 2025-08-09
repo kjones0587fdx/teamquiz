@@ -8,10 +8,12 @@
         :root {
             --primary-color: #663399; /* FedEx Purple */
             --secondary-color: #ff6600; /* FedEx Orange */
-            --background-color: #f0f2f5;
-            --text-color: #333;
+            --background-color: #1a1a1a; /* Dark background */
+            --container-bg-color: #2b2b2b; /* Slightly lighter dark for container */
+            --text-color: #e0e0e0; /* Light text for contrast */
             --correct-color: #28a745;
             --incorrect-color: #dc3545;
+            --container-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
 
         body {
@@ -28,10 +30,10 @@
         }
 
         .container {
-            background-color: white;
+            background-color: var(--container-bg-color);
             padding: 3rem;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--container-shadow);
             max-width: 600px;
             width: 100%;
             text-align: center;
@@ -53,6 +55,10 @@
             transition: all 0.5s ease-in-out;
         }
 
+        #question {
+            color: var(--text-color);
+        }
+
         .btn-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -61,16 +67,16 @@
         }
 
         .btn {
-            background-color: #fff;
+            background-color: #444;
             border: 2px solid var(--primary-color);
-            color: var(--primary-color);
+            color: var(--text-color);
             padding: 1.2rem;
             font-size: 1.1rem;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .btn:hover:not(.disabled) {
@@ -105,6 +111,7 @@
             text-align: left;
             padding: 1rem;
             border-radius: 8px;
+            background-color: #383838;
         }
 
         #feedback-text {
@@ -115,7 +122,7 @@
 
         #rationale-text {
             font-size: 1rem;
-            color: #555;
+            color: #ccc;
             margin: 0;
         }
 
@@ -129,6 +136,7 @@
             cursor: pointer;
             margin-top: 2rem;
             transition: background-color 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         .next-btn:hover {
