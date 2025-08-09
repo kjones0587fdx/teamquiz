@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Team Responsibilities Quiz</title>
+    <title>CSS Help Desk Knowledge Quiz</title>
     <style>
         :root {
             --primary-color: #663399; /* FedEx Purple */
@@ -177,10 +177,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>IT Team Responsibilities Quiz</h1>
+        <h1>CSS Help Desk Knowledge Quiz</h1>
 
         <div id="start-screen">
-            <p>Welcome to the IT Team Responsibilities Quiz! This quiz will help you learn which teams are responsible for various applications and systems. You'll be presented with 20 random questions from a larger pool. Good luck!</p>
+            <p>Welcome to the CSS Help Desk Knowledge Quiz! This quiz will test your knowledge of various CSS-related systems and issues, including team responsibilities, troubleshooting, and specific processes. You'll be presented with 20 random questions from a larger pool. Good luck!</p>
             <button id="start-btn" class="start-btn">Start Quiz</button>
         </div>
 
@@ -596,7 +596,7 @@
                 question: "A Hazmat package with a future Planned Sort Date (PSD) is scanned during a weekend sort when Hold at Destination (HAD) for Ground (GND) is ON. What will appear on the PLA label?",
                 answerOptions: [
                     { text: "'HOLD-X' (X being days in future of PSD), because the HAD setting is active for GND packages.", rationale: "Incorrect, package exceptions take precedence over HAD.", isCorrect: false },
-                    { text: "'QA-HAZMAT', because package exception statuses take precedence over HAD status.", rationale: "Correct. The 'Hazmat' exception status takes precedence over the 'HOLD' status from HAD.", isCorrect: true },
+                    { text: "'QA-HAZMAT', because package exception statuses take precedence over HAD status.", isCorrect: true, rationale: "Correct. The 'Hazmat' exception status takes precedence over the 'HOLD' status from HAD." },
                     { text: "'999-0', because the package's PSD conflicts with the HAD settings, resulting in a generic assignment.", rationale: "Incorrect, a '999-0' is for a contingency assignment.", isCorrect: false },
                     { text: "The package's regular Work Area (WA) and Section ID (SID), as HAD only applies to residential deliveries.", rationale: "Incorrect, HAD can apply to all GND packages.", isCorrect: false }
                 ]
@@ -792,6 +792,7 @@
         function handleNextButton() {
             currentQuestionIndex++;
             if (currentQuestionIndex < QUIZ_SIZE) {
+                updateTracker();
                 showQuestion();
             } else {
                 showScore();
