@@ -362,15 +362,6 @@
                 ]
             },
             {
-                question: "What is the primary application for the Edgelords IT team?",
-                answerOptions: [
-                    { text: "WAP", rationale: "WAP is an application managed by the Edgelords team.", isCorrect: true },
-                    { text: "DDS", rationale: "DDS is managed by the Cross the Streams team.", isCorrect: false },
-                    { text: "SAD", rationale: "SAD is managed by the A-Team.", isCorrect: false },
-                    { text: "FLM Utilities", rationale: "FLM Utilities is managed by the Cargo Commandos team.", isCorrect: false }
-                ]
-            },
-            {
                 question: "Which of the following applications is managed by the Cross the Streams IT team?",
                 answerOptions: [
                     { text: "Active Package", rationale: "Active Package is managed by the '404: Address Not Found' team.", isCorrect: false },
@@ -522,10 +513,142 @@
                     { text: "APS Team", rationale: "The APS Team is responsible for the APS (Automated Pickup System) and related applications.", isCorrect: true },
                     { text: "Made to Code", rationale: "Made to Code is responsible for SEFS 1.0, SAPI, and EONRO.", isCorrect: false }
                 ]
-            }
-        ];
-
-        const situationalQuestions = [
+            },
+            {
+                question: "What team is responsible for the 'Vision Monitoring Application'?",
+                answerOptions: [
+                    { text: "Runnin' on Dunkin'", rationale: "Runnin' on Dunkin' is the team responsible for the 'Vision Monitoring Application'.", isCorrect: true },
+                    { text: "No Comment", rationale: "No Comment handles 'eYMS' applications.", isCorrect: false },
+                    { text: "Elite Squadron", rationale: "Elite Squadron handles 'DMT' applications.", isCorrect: false },
+                    { text: "Made to Code", rationale: "Made to Code handles 'SEFS 1.0', 'SAPI', and 'EONRO' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team handles issues related to 'eYMS' applications?",
+                answerOptions: [
+                    { text: "No Comment", rationale: "The 'No Comment' team is responsible for issues pertaining to 'eYMS' applications.", isCorrect: true },
+                    { text: "Shipyard", rationale: "Shipyard handles issues related to 'USSC' systems.", isCorrect: false },
+                    { text: "FORGE", rationale: "FORGE handles applications like 'Manifest Preview' and 'Telescope'.", isCorrect: false },
+                    { text: "Runnin' on Dunkin'", rationale: "Runnin' on Dunkin' handles the 'Vision Monitoring Application'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary application for the 'Elite Squadron' team?",
+                answerOptions: [
+                    { text: "DMT (Dock Maintenance Tool)", rationale: "Elite Squadron is responsible for the 'DMT' (Dock Maintenance Tool) application.", isCorrect: true },
+                    { text: "eYMS", rationale: "The 'No Comment' team handles 'eYMS' applications.", isCorrect: false },
+                    { text: "USSC", rationale: "The 'Shipyard' team handles 'USSC' systems.", isCorrect: false },
+                    { text: "FRO", rationale: "The 'RouteSmart' team handles 'FRO' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is responsible for the 'FLM Address' and 'Trip Adapter' applications?",
+                answerOptions: [
+                    { text: "A-Team", rationale: "A-Team handles 'SAD' and 'PSD' applications.", isCorrect: false },
+                    { text: "Mile Movers", rationale: "The 'Mile Movers' team is responsible for 'FLM Address' and 'Trip Adapter' applications.", isCorrect: true },
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD' applications.", isCorrect: false },
+                    { text: "Delivery Dragons", rationale: "Delivery Dragons handle 'WAMT' and 'DSW' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What team is responsible for the 'SAD' (Service Area Design) and 'PSD' (Planned Sort Date) applications?",
+                answerOptions: [
+                    { text: "A-Team", rationale: "The 'A-Team' is responsible for 'SAD' and 'PSD' applications.", isCorrect: true },
+                    { text: "Cargo Commandos", rationale: "Cargo Commandos handle the 'Recipient Portal' and 'RDB'.", isCorrect: false },
+                    { text: "Delivery Dragons", rationale: "Delivery Dragons handle 'WAMT' and 'DSW'.", isCorrect: false },
+                    { text: "Cross the Streams", rationale: "Cross the Streams handle 'DDS' and 'EDD'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is responsible for the 'Recipient Portal'?",
+                answerOptions: [
+                    { text: "Cargo Commandos", rationale: "The 'Cargo Commandos' team is responsible for the 'Recipient Portal'.", isCorrect: true },
+                    { text: "Edgelords", rationale: "Edgelords handle issues related to 'EOFPL'.", isCorrect: false },
+                    { text: "A-Team", rationale: "A-Team handles 'SAD' and 'PSD' applications.", isCorrect: false },
+                    { text: "Delivery Dragons", rationale: "Delivery Dragons handle 'WAMT' and 'DSW' applications.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What IT team is responsible for the 'CDAS' application?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD' applications.", isCorrect: false },
+                    { text: "Made to Code", rationale: "Made to Code handles 'SEFS 1.0', 'SAPI', and 'EONRO' applications.", isCorrect: false },
+                    { text: "CDAS (via help tickets)", rationale: "Issues for the 'CDAS' application are handled through a help ticket system assigned to FXG_SPT_US_CDASIT.", isCorrect: true },
+                    { text: "DnA", rationale: "DnA is responsible for 'EDD Calculation'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is the first line of production support for the 'AEFS' application?",
+                answerOptions: [
+                    { text: "Rely EFS", rationale: "The 'Rely EFS' group is the first line of production support for 'AEFS' applications.", isCorrect: true },
+                    { text: "FORGE Vendors", rationale: "FORGE vendors handle scanner software and hardware.", isCorrect: false },
+                    { text: "DnA", rationale: "DnA is responsible for 'EDD Calculation'.", isCorrect: false },
+                    { text: "ITCC", rationale: "ITCC starts bridge calls and facilitates getting the right teams involved.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary role of the 'IT Command Center' (ITCC)?",
+                answerOptions: [
+                    { text: "To manage the 'eYMS' application.", rationale: "The 'No Comment' team manages the 'eYMS' application.", isCorrect: false },
+                    { text: "To initiate and facilitate bridge calls for urgent issues.", rationale: "The 'IT Command Center' (ITCC) can start bridge calls and facilitate getting the right teams involved.", isCorrect: true },
+                    { text: "To handle issues with 'FRO' plans not dropping to scanners.", rationale: "This is an urgent issue that involves multiple teams, but ITCC is not the primary handler.", isCorrect: false },
+                    { text: "To be the first line of support for 'AEFS' applications.", isCorrect: false, rationale: "The 'Rely EFS' group is the first line of production support for 'AEFS'."}
+                ]
+            },
+            {
+                question: "Which team is responsible for 'Manifest Preview' and 'Telescope'?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD'.", isCorrect: false },
+                    { text: "Made to Code", rationale: "Made to Code handles 'SEFS 1.0', 'SAPI', and 'EONRO'.", isCorrect: false },
+                    { text: "FORGE", rationale: "FORGE is responsible for 'Manifest Preview' and 'Telescope'.", isCorrect: true },
+                    { text: "Elite Squadron", rationale: "Elite Squadron handles 'DMT'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary application for the 'Runs with Scissors' team?",
+                answerOptions: [
+                    { text: "EOSR", rationale: "EOSR is handled by the 'Null Pointers' team.", isCorrect: false },
+                    { text: "TBT-SORT", rationale: "TBT-SORT is a primary application for the 'Runs with Scissors' team.", isCorrect: true },
+                    { text: "MIView", rationale: "MIView is handled by the 'EIT' team.", isCorrect: false },
+                    { text: "DDS", rationale: "DDS is handled by the 'Cross the Streams' team.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team is responsible for 'FLM Manifest'?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "The 'Scrumbags' team is responsible for 'FLM Manifest'.", isCorrect: true },
+                    { text: "FORGE", rationale: "FORGE is responsible for applications like 'Manifest Preview' and 'Telescope'.", isCorrect: false },
+                    { text: "Mile Movers", rationale: "Mile Movers handle applications like 'Trip Adapter' and 'Execute Conveyance'.", isCorrect: false },
+                    { text: "A-Team", rationale: "A-Team handles 'SAD' and 'PSD'.", isCorrect: false }
+                ]
+            },
+            {
+                question: "What is the primary application for the 'The Commoners' team?",
+                answerOptions: [
+                    { text: "CLS", rationale: "The 'CLS' application is the responsibility of 'The Commoners'.", isCorrect: true },
+                    { text: "FLM Utilities", rationale: "FLM Utilities is handled by the 'Cargo Commandos' and 'Mile Movers' teams.", isCorrect: false },
+                    { text: "EOSR", rationale: "EOSR is handled by the 'Null Pointers' team.", isCorrect: false },
+                    { text: "SCS", rationale: "SCS is handled by the 'Cross the Streams' team.", isCorrect: false }
+                ]
+            },
+            {
+                question: "The 'Shrug' team is responsible for which applications?",
+                answerOptions: [
+                    { text: "FRANS", rationale: "FRANS is handled by the 'LowX' team.", isCorrect: false },
+                    { text: "EOSRO, SSCSO, WRR", rationale: "The 'Shrug' team is responsible for 'EOSRO', 'SSCSO', and 'WRR' applications.", isCorrect: true },
+                    { text: "TBT-SORT", rationale: "TBT-SORT is handled by the 'Runs with Scissors' team.", isCorrect: false },
+                    { text: "EONRO", rationale: "EONRO is handled by the 'Made to Code' team.", isCorrect: false }
+                ]
+            },
+            {
+                question: "Which team handles the 'SEFS 1.0', 'SAPI', and 'EONRO' applications?",
+                answerOptions: [
+                    { text: "Scrumbags", rationale: "Scrumbags handle 'FLM Manifest' and 'PTD'.", isCorrect: false },
+                    { text: "Made to Code", rationale: "The 'Made to Code' team is responsible for 'SEFS 1.0', 'SAPI', and 'EONRO' applications.", isCorrect: true },
+                    { text: "GSI System Team", rationale: "The 'GSI System Team' handles general GSI system support.", isCorrect: false },
+                    { text: "APS Team", rationale: "The 'APS Team' handles 'APS' applications.", isCorrect: false }
+                ]
+            },
             {
                 question: "When attempting to assign a trailer in USSC, a user receives a 'Trailer Not Found' error. What is a possible reason for this?",
                 answerOptions: [
