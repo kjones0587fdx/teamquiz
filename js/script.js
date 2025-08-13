@@ -1,5 +1,4 @@
  // --- TAILWIND UTILITY CLASSES FOR JS ---
-        const quizTypeBtnClasses = "quiz-type-btn flex flex-col items-center justify-center bg-slate-700/80 border-2 border-slate-600 rounded-lg p-5 text-lg font-semibold hover:bg-purple-600 hover:border-purple-500 transition-all duration-300 transform hover:scale-105 shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900";
         const answerBtnClasses = "btn bg-slate-700 border-2 border-slate-600 rounded-lg p-4 text-left w-full font-medium hover:bg-slate-600 hover:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
         const actionBtnClasses = "action-btn bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-md hover:shadow-lg hover:from-orange-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-slate-800";
         const secondaryBtnClasses = "secondary-btn bg-slate-600 text-slate-100 font-bold py-3 px-6 rounded-lg shadow-md hover:bg-slate-500 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-800";
@@ -252,7 +251,6 @@
         }
 
         // --- ADD CSS CLASSES and EVENT LISTENERS ---
-        document.querySelectorAll('.quiz-type-btn').forEach(btn => btn.className = quizTypeBtnClasses);
         document.querySelectorAll('.action-btn').forEach(btn => btn.className = actionBtnClasses);
         document.querySelectorAll('.secondary-btn').forEach(btn => btn.className = secondaryBtnClasses);
 
