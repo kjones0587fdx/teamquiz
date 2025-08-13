@@ -1,0 +1,23 @@
+/* Using Inter font as the base */
+body {
+    font-family: 'Inter', sans-serif;
+}
+/* Custom styles for the correct/incorrect answer states to ensure they override Tailwind defaults */
+.btn.correct {
+    background-color: #22c55e !important; /* Tailwind green-500 */
+    border-color: #16a34a !important; /* Tailwind green-600 */
+    color: white !important;
+}
+.btn.incorrect {
+    background-color: #ef4444 !important; /* Tailwind red-500 */
+    border-color: #dc2626 !important; /* Tailwind red-600 */
+    color: white !important;
+}
+/* Simple fade-in animation for elements */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

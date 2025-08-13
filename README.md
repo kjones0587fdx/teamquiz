@@ -22,6 +22,15 @@ To use the quiz, simply open the `index.html` file in any modern web browser. No
 2.  Navigate to the project directory.
 3.  Open `index.html` in your preferred web browser (e.g., Chrome, Firefox, Edge).
 
+## Project Structure
+
+The project is now organized into separate files for better maintainability:
+
+*   `index.html`: The main HTML file for the structure of the quiz.
+*   `css/style.css`: Contains all the custom styles for the application.
+*   `js/questions.js`: Stores all the quiz questions and answers. **This is the file to edit if you want to add or change questions.**
+*   `js/script.js`: Holds the core JavaScript logic for the quiz functionality.
+
 ## Technologies Used
 
 *   **HTML**: The structure of the quiz.
@@ -32,10 +41,9 @@ To use the quiz, simply open the `index.html` file in any modern web browser. No
 
 Contributions are welcome! If you want to add more questions or improve the quiz, you can do so by following these steps:
 
-1.  Open the `index.html` file in a text editor.
-2.  Locate the `<script>` tag at the bottom of the file.
-3.  You will find two JavaScript arrays: `teamAppQuestions` and `situationalQuestions`.
-4.  To add a new question, add a new object to the appropriate array. Follow the existing format:
+1.  Open the `js/questions.js` file in a text editor.
+2.  You will find two JavaScript arrays: `teamAppQuestions` and `situationalQuestions`.
+3.  To add a new question, add a new object to the appropriate array. Follow the existing format:
 
 ```javascript
 {
@@ -52,6 +60,6 @@ Contributions are welcome! If you want to add more questions or improve the quiz
 *   `answerOptions`: An array of possible answers.
     *   `text`: The answer text to be displayed on the button.
     *   `rationale`: An explanation of why the answer is correct or incorrect. This is shown after the user answers.
-    *   `isCorrect`: A boolean value (`true` or `false`) indicating if this is a correct answer. You can have multiple correct answers.
+    *   `isCorrect`: A boolean value (`true` or `false`) indicating if this is a correct answer.
 
-5.  Save the file, and your new question will be included in the quiz.
+4.  Save the file, and your new question will be included in the quiz.
